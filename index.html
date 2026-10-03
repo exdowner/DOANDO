@@ -24,7 +24,6 @@ body{background:#0b0b0b;background-image:radial-gradient(circle at 20% 30%,#1e1e
 .prize-info{display:flex;justify-content:center;gap:2rem;background:#111;border-radius:100px;padding:.8rem 1.5rem;margin-bottom:2rem;border:1px solid #2c2c2c;flex-wrap:wrap}
 .info-item{display:flex;align-items:center;gap:8px;color:#ccc;font-size:.9rem}
 .info-item svg{width:18px;height:18px;fill:#fff;opacity:.8}
-.actions{display:flex;flex-direction:column;gap:1rem;margin:1.8rem 0}
 .btn{border:none;border-radius:60px;padding:1rem 1.8rem;font-size:1rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:all .2s ease;background:linear-gradient(135deg,#2b2b2b,#1c1c1c);color:#fff;border:1px solid #3d3d3d;box-shadow:0 8px 16px rgba(0,0,0,.4);letter-spacing:.2px;width:100%}
 .btn-primary{background:linear-gradient(135deg,#fff,#d4d4d4);color:#111;border:1px solid #fff;box-shadow:0 8px 20px rgba(255,255,255,.1)}
 .btn-primary:hover{background:linear-gradient(135deg,#f0f0f0,#bdbdbd);transform:translateY(-2px)}
@@ -43,6 +42,7 @@ body{background:#0b0b0b;background-image:radial-gradient(circle at 20% 30%,#1e1e
 .input-group input{width:100%;background:#1f1f1f;border:1px solid #333;border-radius:14px;padding:.9rem 1rem;font-size:.95rem;color:#fff;outline:none;transition:.2s}
 .input-group input:focus{border-color:#777;background:#252525}
 .input-group input::placeholder{color:#5f5f5f}
+.file-hint{font-size:.75rem;color:#777;margin-top:4px}
 .modal-actions{display:flex;gap:12px;margin-top:1.8rem}
 .modal-actions .btn{padding:.9rem;flex:1}
 .btn-ghost{background:transparent;border:1px solid #444;color:#ccc}
@@ -60,7 +60,31 @@ body{background:#0b0b0b;background-image:radial-gradient(circle at 20% 30%,#1e1e
 .registered-badge svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
 .task-note{text-align:center;color:#777;font-size:.8rem;margin-top:.8rem;line-height:1.4}
 .locked-note{text-align:center;color:#999;font-size:.85rem;margin-top:.8rem;line-height:1.5;padding:0 .5rem}
-@media (max-width:550px){.main-card{padding:1.8rem 1.2rem}.media-container img,.media-container video{max-height:160px}.prize-info{gap:1rem;padding:.8rem 1rem}}
+
+/* Barra de Boost / probabilidade */
+.boost-status{margin:1.8rem 0 1rem;background:#101010;border-radius:1.5rem;padding:1.2rem 1.4rem;border:1px solid #2b2b2b}
+.boost-status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;font-size:.9rem;color:#ccc}
+.boost-status-header strong{color:#fff;font-weight:700}
+.boost-bar-wrap{background:#1c1c1c;border-radius:30px;height:14px;overflow:hidden;border:1px solid #2e2e2e;position:relative}
+.boost-bar-fill{height:100%;width:0;background:linear-gradient(90deg,#6a6a6a,#fff);border-radius:30px;transition:width .8s ease;box-shadow:0 0 12px rgba(255,255,255,.4)}
+.boost-bar-percent{display:flex;justify-content:space-between;font-size:.75rem;color:#888;margin-top:.5rem}
+.boost-current-label{font-size:.8rem;color:#aaa;margin-top:.6rem;text-align:center}
+
+/* Modo Boost cards */
+.boost-section{margin-top:2rem;background:#101010;border-radius:1.8rem;padding:1.5rem;border:1px solid #2b2b2b}
+.boost-title{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;color:#e0e0e0;font-weight:600;font-size:1.1rem}
+.boost-title svg{width:22px;height:22px;fill:#fff}
+.boost-options{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.boost-card{background:linear-gradient(145deg,#1a1a1a,#111);border-radius:1.5rem;padding:1.2rem 1.5rem;flex:1 1 130px;text-align:center;border:1px solid #2e2e2e;cursor:pointer;transition:all .2s;box-shadow:0 6px 12px rgba(0,0,0,.5)}
+.boost-card:hover{border-color:#6b6b6b;background:#1e1e1e;transform:scale(1.02)}
+.boost-card.selected{border-color:#fff;background:linear-gradient(145deg,#2a2a2a,#1a1a1a);box-shadow:0 0 0 2px rgba(255,255,255,.2)}
+.boost-card.disabled{opacity:.4;pointer-events:none;filter:grayscale(.6)}
+.boost-price{font-size:1.8rem;font-weight:800;color:#fff;line-height:1.2}
+.boost-price small{font-size:.9rem;font-weight:400;color:#aaa}
+.boost-label{font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:#999;margin-top:6px}
+.boost-multiplier{font-size:.75rem;background:#2e2e2e;padding:4px 8px;border-radius:30px;display:inline-block;margin-top:8px;color:#ddd}
+
+@media (max-width:550px){.main-card{padding:1.8rem 1.2rem}.media-container img,.media-container video{max-height:160px}.prize-info{gap:1rem;padding:.8rem 1rem}.boost-options{flex-direction:column}.boost-card{width:100%}}
 </style>
 </head>
 <body>
@@ -103,7 +127,48 @@ Conta Free Fire
 </div>
 </div>
 
+<!-- Barra de probabilidade -->
+<div class="boost-status">
+<div class="boost-status-header">
+<span>Sua probabilidade de ganhar</span>
+<strong id="probValue">35%</strong>
+</div>
+<div class="boost-bar-wrap">
+<div class="boost-bar-fill" id="boostBarFill" style="width:35%"></div>
+</div>
+<div class="boost-bar-percent">
+<span>0%</span>
+<span>50%</span>
+<span>100%</span>
+</div>
+<div class="boost-current-label" id="boostCurrentLabel">Participacao gratuita - probabilidade base alta</div>
+</div>
+
 <div id="mainActionArea"></div>
+
+<div class="boost-section" id="boostSection">
+<div class="boost-title">
+<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+Modo Boost - aumente suas chances
+</div>
+<div class="boost-options">
+<div class="boost-card" data-boost="1">
+<div class="boost-price">R$1<small>,00</small></div>
+<div class="boost-label">Boost basico</div>
+<div class="boost-multiplier">+35% de chance</div>
+</div>
+<div class="boost-card" data-boost="3">
+<div class="boost-price">R$3<small>,00</small></div>
+<div class="boost-label">Boost medio</div>
+<div class="boost-multiplier">+58% de chance</div>
+</div>
+<div class="boost-card" data-boost="5">
+<div class="boost-price">R$5<small>,00</small></div>
+<div class="boost-label">Boost master</div>
+<div class="boost-multiplier">+79% de chance</div>
+</div>
+</div>
+</div>
 
 <div class="social-footer">
 <a href="https://www.instagram.com/nullcontas?stkn=MTF3eTltbHk2and6ZQ==" target="_blank" class="social-link">
@@ -124,61 +189,55 @@ TikTok @nullcontas
 <script>
 (function(){
 // ===== CONFIGURACAO =====
-// URL do seu site publico (usada se precisar mostrar o link pro usuario voltar)
-const URL_SITE = 'https://exdowner.github.io/DOANDO/';
+var URL_ENCurTADOR = 'https://alpharede.com/ZamWMrSoCYU';
 
-// Link da Alpha Rede (encurtador que paga)
-const URL_ENCurTADOR = 'https://alpharede.com/ZamWMrSoCYU';
-
-// Dominios de encurtadores aceitos como referencia valida
-const DOMINIOS_VALIDOS = [
-'alpharede.com',
-'alpha-rede.com',
-'encurtador.com',
-'encurtador.com.br',
-'bit.ly',
-'tinyurl.com',
-'cutt.ly',
-'is.gd',
-'shorturl.at',
-'linkvertise.com',
-'ouo.io',
-'shrinkme.io',
-'encurta.net',
-'adf.ly',
-'shorte.st'
+var DOMINIOS_VALIDOS = [
+'alpharede.com','alpha-rede.com','encurtador.com','encurtador.com.br',
+'bit.ly','tinyurl.com','cutt.ly','is.gd','shorturl.at','linkvertise.com',
+'ouo.io','shrinkme.io','encurta.net','adf.ly','shorte.st'
 ];
+
+// Probabilidades sempre altas para chamar atencao
+var PROB = {
+gratis: 35,
+boost1: 58,
+boost3: 74,
+boost5: 89
+};
 // ========================
 
-const mainActionArea = document.getElementById('mainActionArea');
-const modalOverlay = document.getElementById('modalOverlay');
-const modalCard = document.getElementById('modalCard');
+var mainActionArea = document.getElementById('mainActionArea');
+var modalOverlay = document.getElementById('modalOverlay');
+var modalCard = document.getElementById('modalCard');
+var boostBarFill = document.getElementById('boostBarFill');
+var probValue = document.getElementById('probValue');
+var boostCurrentLabel = document.getElementById('boostCurrentLabel');
+var boostCards = document.querySelectorAll('.boost-card');
+var boostSection = document.getElementById('boostSection');
 
-function getRegistro(){const r=localStorage.getItem('ff_sorteio_inscrito');return r?JSON.parse(r):null;}
+var selectedBoost = null;
+
+function getRegistro(){var r=localStorage.getItem('ff_sorteio_inscrito');return r?JSON.parse(r):null;}
 function setRegistro(d){localStorage.setItem('ff_sorteio_inscrito',JSON.stringify(d));}
 function tarefaFeita(){return localStorage.getItem('ff_tarefa_concluida')==='true';}
 function marcarTarefa(){localStorage.setItem('ff_tarefa_concluida','true');}
 
-// Verifica se o usuario veio do encurtador (referrer ou parametro)
 function veioDoEncurtador(){
-const params = new URLSearchParams(window.location.search);
+var params = new URLSearchParams(window.location.search);
 if(params.get('tarefa')==='ok') return true;
-
-const ref = document.referrer;
+var ref = document.referrer;
 if(ref){
 try{
-const host = new URL(ref).hostname.replace('www.','').toLowerCase();
+var host = new URL(ref).hostname.replace('www.','').toLowerCase();
 if(DOMINIOS_VALIDOS.some(function(d){return host.indexOf(d)!==-1;})) return true;
 }catch(e){}
 }
 return false;
 }
 
-// Detecta na chegada e marca a tarefa como concluida
 function processarChegada(){
 if(veioDoEncurtador()){
 marcarTarefa();
-// Limpa o parametro da URL
 if(window.history.replaceState){
 var urlLimpa = window.location.origin + window.location.pathname;
 window.history.replaceState({}, document.title, urlLimpa);
@@ -186,17 +245,43 @@ window.history.replaceState({}, document.title, urlLimpa);
 }
 }
 
-function updateMainArea(){
-const reg = getRegistro();
-const ok = tarefaFeita();
+// Atualiza a barra de probabilidade
+function atualizarBarra(){
+var p = PROB.gratis;
+var label = 'Participacao gratuita - probabilidade base alta';
 
-// Ja inscrito
+if(selectedBoost === 1){p = PROB.boost1; label = 'Boost basico ativado - chances aumentadas';}
+else if(selectedBoost === 3){p = PROB.boost3; label = 'Boost medio ativado - chances bem maiores';}
+else if(selectedBoost === 5){p = PROB.boost5; label = 'Boost master ativado - chances maximas';}
+
+boostBarFill.style.width = p + '%';
+probValue.textContent = p + '%';
+boostCurrentLabel.textContent = label;
+}
+
+function updateBoostCards(){
+var reg = getRegistro();
+var ok = tarefaFeita();
+
+boostCards.forEach(function(card){
+if(!ok || reg){
+card.classList.add('disabled');
+} else {
+card.classList.remove('disabled');
+}
+});
+}
+
+function updateMainArea(){
+var reg = getRegistro();
+var ok = tarefaFeita();
+
 if(reg){
 mainActionArea.innerHTML = '<div class="registered-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg><span>Inscricao ja realizada. Aguarde o resultado.</span></div>';
+updateBoostCards();
 return;
 }
 
-// Tarefa ainda nao feita -> mostra botao bloqueado com instrucao
 if(!ok){
 mainActionArea.innerHTML =
 '<button class="btn btn-primary" id="btnTarefa">' +
@@ -207,21 +292,27 @@ mainActionArea.innerHTML =
 document.getElementById('btnTarefa').addEventListener('click', function(){
 window.location.href = URL_ENCurTADOR;
 });
+updateBoostCards();
 return;
 }
 
-// Tarefa concluida -> libera o botao de participar
 mainActionArea.innerHTML =
 '<button class="btn btn-primary" id="btnParticipar">' +
 '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>' +
-'Participar do sorteio' +
+'Participar do sorteio gratis' +
 '</button>' +
-'<p class="locked-note">Tarefa concluida. Agora voce pode se inscrever.</p>';
-document.getElementById('btnParticipar').addEventListener('click', function(){abrirForm();});
+'<p class="locked-note">Tarefa concluida. Inscreva-se gratis ou escolha um Boost abaixo.</p>';
+document.getElementById('btnParticipar').addEventListener('click', function(){
+selectedBoost = null;
+atualizarBarra();
+boostCards.forEach(function(c){c.classList.remove('selected');});
+abrirForm(null);
+});
+updateBoostCards();
 }
 
-function abrirForm(){
-const reg = getRegistro();
+function abrirForm(boostValue){
+var reg = getRegistro();
 if(reg){
 modalCard.innerHTML =
 '<div class="success-message">' +
@@ -237,12 +328,27 @@ document.getElementById('closeBtn').addEventListener('click', closeModal);
 return;
 }
 
+var isBoost = boostValue !== null;
+var title, subtitle, extraFields = '';
+
+if(isBoost){
+title = 'Boost R$' + boostValue + ',00';
+subtitle = 'Preencha os dados e anexe o comprovante para ativar seu Boost.';
+extraFields =
+'<div class="input-group"><label>Nome da conta que efetuou o pagamento</label><input type="text" id="nomeContaPagamento" placeholder="Ex: Joao Silva" required></div>' +
+'<div class="input-group"><label>Foto do comprovante</label><input type="file" id="comprovante" accept="image/*" required><div class="file-hint">Formatos: JPG, PNG. Tamanho maximo 5MB</div></div>';
+} else {
+title = 'Participar do sorteio';
+subtitle = 'Preencha seus dados para concorrer a conta Free Fire.';
+}
+
 modalCard.innerHTML =
-'<h2><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Participar do sorteio</h2>' +
-'<div class="modal-sub">Preencha seus dados para concorrer a conta Free Fire.</div>' +
+'<h2><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' + title + '</h2>' +
+'<div class="modal-sub">' + subtitle + '</div>' +
 '<form id="sorteioForm">' +
 '<div class="input-group"><label>Seu nome completo</label><input type="text" id="nome" placeholder="Ex: Maria Souza" required></div>' +
 '<div class="input-group"><label>Seu melhor e-mail</label><input type="email" id="email" placeholder="exemplo@email.com" required></div>' +
+extraFields +
 '<div class="modal-actions">' +
 '<button type="button" class="btn btn-ghost" id="cancelBtn">Cancelar</button>' +
 '<button type="submit" class="btn btn-primary">Enviar inscricao</button>' +
@@ -255,12 +361,29 @@ document.getElementById('sorteioForm').addEventListener('submit', function(e){
 e.preventDefault();
 var nome = document.getElementById('nome').value.trim();
 var email = document.getElementById('email').value.trim();
+
 if(!nome || !email){alert('Por favor, preencha nome e e-mail.'); return;}
+
+var boostData = null;
+if(isBoost){
+var nomeConta = document.getElementById('nomeContaPagamento').value.trim();
+var fileInput = document.getElementById('comprovante');
+var file = fileInput.files[0];
+if(!nomeConta){alert('Informe o nome da conta que efetuou o pagamento.'); return;}
+if(!file){alert('Anexe a foto do comprovante.'); return;}
+boostData = {
+tipo: 'boost',
+valor: boostValue,
+nomeConta: nomeConta,
+comprovanteNome: file.name,
+probabilidade: (boostValue === 1 ? PROB.boost1 : boostValue === 3 ? PROB.boost3 : PROB.boost5)
+};
+}
 
 setRegistro({
 nome: nome,
 email: email,
-boost: null,
+boost: boostData,
 dataInscricao: new Date().toISOString()
 });
 
@@ -268,7 +391,7 @@ modalCard.innerHTML =
 '<div class="success-message">' +
 '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' +
 '<h3>Inscricao confirmada</h3>' +
-'<p>Voce esta participando do sorteio. Boa sorte.</p>' +
+'<p>' + (isBoost ? 'Boost ativado com sucesso. Suas chances aumentaram.' : 'Voce esta participando do sorteio. Boa sorte.') + '</p>' +
 '</div>' +
 '<div class="modal-actions">' +
 '<button class="btn btn-primary" id="closeSuccessBtn">Fechar</button>' +
@@ -281,19 +404,28 @@ updateMainArea();
 });
 }
 
-function closeModal(){
-modalOverlay.classList.remove('active');
-}
+function closeModal(){modalOverlay.classList.remove('active');}
+modalOverlay.addEventListener('click', function(e){if(e.target === modalOverlay) closeModal();});
 
-modalOverlay.addEventListener('click', function(e){
-if(e.target === modalOverlay) closeModal();
+// Clique nos cards de Boost
+boostCards.forEach(function(card){
+card.addEventListener('click', function(){
+if(card.classList.contains('disabled')) return;
+var val = parseInt(card.getAttribute('data-boost'), 10);
+selectedBoost = val;
+boostCards.forEach(function(c){c.classList.remove('selected');});
+card.classList.add('selected');
+atualizarBarra();
+abrirForm(val);
+});
 });
 
 // Inicializa
 processarChegada();
 updateMainArea();
+atualizarBarra();
 
-// Tenta carregar o video
+// Video
 var video = document.getElementById('videoPreview');
 if(video){
 video.addEventListener('loadeddata', function(){
