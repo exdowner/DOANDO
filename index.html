@@ -1,882 +1,310 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorteio Conta Free Fire | NullContas</title>
-    <style>
-        /* Reset e base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        body {
-            background: #0b0b0b;
-            background-image: radial-gradient(circle at 20% 30%, #1e1e1e 0%, #0a0a0a 90%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            color: #f0f0f0;
-        }
-
-        /* Card principal com gradiente */
-        .main-card {
-            background: linear-gradient(145deg, #141414, #1f1f1f);
-            border-radius: 2.5rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.03);
-            max-width: 800px;
-            width: 100%;
-            padding: 2.5rem 2rem;
-            transition: all 0.3s ease;
-            border: 1px solid #2e2e2e;
-        }
-
-        /* Cabeçalho */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.8rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #3a3a3a, #1f1f1f);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #3d3d3d;
-        }
-
-        .logo-icon svg {
-            width: 28px;
-            height: 28px;
-            fill: #ffffff;
-            filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
-        }
-
-        .logo-text h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #ffffff, #b0b0b0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-text span {
-            font-size: 0.85rem;
-            color: #888;
-            display: block;
-            font-weight: 400;
-        }
-
-        .badge {
-            background: #2a2a2a;
-            padding: 0.5rem 1rem;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            border: 1px solid #3f3f3f;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #ddd;
-        }
-
-        .badge svg {
-            width: 16px;
-            height: 16px;
-            fill: #fff;
-        }
-
-        /* Vídeo / Mídia */
-        .media-showcase {
-            margin: 1.5rem 0 2rem;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            background: #0d0d0d;
-            border: 1px solid #2e2e2e;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-        }
-
-        .media-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #181818, #0f0f0f);
-            padding: 1rem;
-        }
-
-        .media-container img {
-            max-width: 100%;
-            max-height: 220px;
-            border-radius: 1rem;
-            object-fit: cover;
-            border: 1px solid #333;
-            transition: transform 0.2s;
-        }
-
-        .media-container video {
-            max-width: 100%;
-            max-height: 220px;
-            border-radius: 1rem;
-            border: 1px solid #333;
-            background: #000;
-        }
-
-        .media-caption {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 1.2rem;
-            background: #141414;
-            border-top: 1px solid #2a2a2a;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-
-        /* Info prêmio */
-        .prize-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            background: #111;
-            border-radius: 100px;
-            padding: 0.8rem 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #2c2c2c;
-            flex-wrap: wrap;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #ccc;
-            font-size: 0.9rem;
-        }
-
-        .info-item svg {
-            width: 18px;
-            height: 18px;
-            fill: #fff;
-            opacity: 0.8;
-        }
-
-        /* Botões de ação */
-        .actions {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin: 1.8rem 0;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 60px;
-            padding: 1rem 1.8rem;
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background: linear-gradient(135deg, #2b2b2b, #1c1c1c);
-            color: white;
-            border: 1px solid #3d3d3d;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-            letter-spacing: 0.2px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ffffff, #d4d4d4);
-            color: #111;
-            border: 1px solid #ffffff;
-            box-shadow: 0 8px 20px rgba(255,255,255,0.1);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #f0f0f0, #bdbdbd);
-            transform: translateY(-2px);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            border-color: #5a5a5a;
-        }
-
-        .btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .btn-primary svg {
-            fill: #111;
-        }
-
-        /* Boost section */
-        .boost-section {
-            margin-top: 2rem;
-            background: #101010;
-            border-radius: 1.8rem;
-            padding: 1.5rem;
-            border: 1px solid #2b2b2b;
-        }
-
-        .boost-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1.2rem;
-            color: #e0e0e0;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .boost-title svg {
-            width: 22px;
-            height: 22px;
-            fill: #fff;
-        }
-
-        .boost-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .boost-card {
-            background: linear-gradient(145deg, #1a1a1a, #111);
-            border-radius: 1.5rem;
-            padding: 1.2rem 1.5rem;
-            flex: 1 1 130px;
-            text-align: center;
-            border: 1px solid #2e2e2e;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-        }
-
-        .boost-card:hover {
-            border-color: #6b6b6b;
-            background: #1e1e1e;
-            transform: scale(1.02);
-        }
-
-        .boost-card.selected {
-            border-color: #ffffff;
-            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
-        }
-
-        .boost-price {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1.2;
-        }
-
-        .boost-price small {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: #aaa;
-        }
-
-        .boost-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            margin-top: 6px;
-        }
-
-        .boost-multiplier {
-            font-size: 0.75rem;
-            background: #2e2e2e;
-            padding: 4px 8px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-top: 8px;
-            color: #ddd;
-        }
-
-        /* Formulários (modal) */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(6px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background: linear-gradient(145deg, #181818, #0e0e0e);
-            border-radius: 2rem;
-            max-width: 500px;
-            width: 100%;
-            padding: 2rem 1.8rem;
-            border: 1px solid #333;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.9);
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-card h2 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-card h2 svg {
-            width: 28px;
-            height: 28px;
-            fill: #fff;
-        }
-
-        .modal-sub {
-            color: #888;
-            margin-bottom: 1.8rem;
-            font-size: 0.95rem;
-        }
-
-        .input-group {
-            margin-bottom: 1.2rem;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #bbb;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-
-        .input-group input {
-            width: 100%;
-            background: #1f1f1f;
-            border: 1px solid #333;
-            border-radius: 14px;
-            padding: 0.9rem 1rem;
-            font-size: 0.95rem;
-            color: #fff;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        .input-group input:focus {
-            border-color: #777;
-            background: #252525;
-        }
-
-        .input-group input::placeholder {
-            color: #5f5f5f;
-        }
-
-        .file-hint {
-            font-size: 0.75rem;
-            color: #777;
-            margin-top: 4px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 1.8rem;
-        }
-
-        .modal-actions .btn {
-            padding: 0.9rem;
-            flex: 1;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid #444;
-            color: #ccc;
-        }
-
-        .btn-ghost:hover {
-            background: #1f1f1f;
-        }
-
-        /* Mensagem de sucesso */
-        .success-message {
-            text-align: center;
-            padding: 1.5rem 0;
-        }
-
-        .success-message svg {
-            width: 64px;
-            height: 64px;
-            fill: #fff;
-            margin-bottom: 1rem;
-            opacity: 0.9;
-        }
-
-        .success-message h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
-
-        .success-message p {
-            color: #999;
-            font-size: 0.95rem;
-        }
-
-        /* Redes sociais */
-        .social-footer {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            padding-top: 1rem;
-            border-top: 1px solid #232323;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #b0b0b0;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .social-link svg {
-            width: 22px;
-            height: 22px;
-            fill: #b0b0b0;
-            transition: fill 0.2s;
-        }
-
-        .social-link:hover {
-            color: #fff;
-        }
-
-        .social-link:hover svg {
-            fill: #fff;
-        }
-
-        /* Aviso inscrito */
-        .registered-badge {
-            background: #1f1f1f;
-            border: 1px solid #3a3a3a;
-            border-radius: 60px;
-            padding: 0.9rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            color: #ddd;
-            font-weight: 500;
-            margin: 1.5rem 0;
-        }
-
-        .registered-badge svg {
-            width: 20px;
-            height: 20px;
-            fill: #fff;
-        }
-
-        /* Responsivo */
-        @media (max-width: 550px) {
-            .main-card {
-                padding: 1.8rem 1.2rem;
-            }
-            .boost-options {
-                flex-direction: column;
-            }
-            .boost-card {
-                width: 100%;
-            }
-            .media-container img,
-            .media-container video {
-                max-height: 160px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorteio Conta Free Fire | NullContas</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#0b0b0b;background-image:radial-gradient(circle at 20% 30%,#1e1e1e 0%,#0a0a0a 90%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;color:#f0f0f0}
+.main-card{background:linear-gradient(145deg,#141414,#1f1f1f);border-radius:2.5rem;box-shadow:0 20px 40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.03);max-width:800px;width:100%;padding:2.5rem 2rem;border:1px solid #2e2e2e}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem}
+.logo-area{display:flex;align-items:center;gap:.75rem}
+.logo-icon{width:48px;height:48px;background:linear-gradient(135deg,#3a3a3a,#1f1f1f);border-radius:16px;display:flex;align-items:center;justify-content:center;border:1px solid #3d3d3d}
+.logo-icon svg{width:28px;height:28px;fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,.3))}
+.logo-text h1{font-size:1.6rem;font-weight:700;letter-spacing:-.5px;background:linear-gradient(to right,#fff,#b0b0b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-text span{font-size:.85rem;color:#888;display:block;font-weight:400}
+.badge{background:#2a2a2a;padding:.5rem 1rem;border-radius:60px;font-size:.8rem;border:1px solid #3f3f3f;display:flex;align-items:center;gap:6px;color:#ddd}
+.badge svg{width:16px;height:16px;fill:#fff}
+.media-showcase{margin:1.5rem 0 2rem;border-radius:1.5rem;overflow:hidden;background:#0d0d0d;border:1px solid #2e2e2e;display:flex;flex-direction:column;box-shadow:0 10px 25px rgba(0,0,0,.6)}
+.media-container{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#181818,#0f0f0f);padding:1rem;min-height:180px}
+.media-container img{max-width:100%;max-height:220px;border-radius:1rem;object-fit:cover;border:1px solid #333}
+.media-container video{max-width:100%;max-height:220px;border-radius:1rem;border:1px solid #333;background:#000;display:none}
+.media-caption{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1.2rem;background:#141414;border-top:1px solid #2a2a2a;font-size:.85rem;color:#aaa}
+.prize-info{display:flex;justify-content:center;gap:2rem;background:#111;border-radius:100px;padding:.8rem 1.5rem;margin-bottom:2rem;border:1px solid #2c2c2c;flex-wrap:wrap}
+.info-item{display:flex;align-items:center;gap:8px;color:#ccc;font-size:.9rem}
+.info-item svg{width:18px;height:18px;fill:#fff;opacity:.8}
+.actions{display:flex;flex-direction:column;gap:1rem;margin:1.8rem 0}
+.btn{border:none;border-radius:60px;padding:1rem 1.8rem;font-size:1rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:all .2s ease;background:linear-gradient(135deg,#2b2b2b,#1c1c1c);color:#fff;border:1px solid #3d3d3d;box-shadow:0 8px 16px rgba(0,0,0,.4);letter-spacing:.2px;width:100%}
+.btn-primary{background:linear-gradient(135deg,#fff,#d4d4d4);color:#111;border:1px solid #fff;box-shadow:0 8px 20px rgba(255,255,255,.1)}
+.btn-primary:hover{background:linear-gradient(135deg,#f0f0f0,#bdbdbd);transform:translateY(-2px)}
+.btn:hover{transform:translateY(-2px);border-color:#5a5a5a}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;filter:grayscale(.5);pointer-events:none}
+.btn svg{width:20px;height:20px;fill:currentColor}
+.btn-primary svg{fill:#111}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+.modal-overlay.active{display:flex}
+.modal-card{background:linear-gradient(145deg,#181818,#0e0e0e);border-radius:2rem;max-width:500px;width:100%;padding:2rem 1.8rem;border:1px solid #333;box-shadow:0 30px 50px rgba(0,0,0,.9);max-height:90vh;overflow-y:auto;position:relative}
+.modal-card h2{font-size:1.6rem;font-weight:700;margin-bottom:.5rem;color:#fff;display:flex;align-items:center;gap:10px}
+.modal-card h2 svg{width:28px;height:28px;fill:#fff}
+.modal-sub{color:#888;margin-bottom:1.8rem;font-size:.95rem}
+.input-group{margin-bottom:1.2rem}
+.input-group label{display:block;font-size:.85rem;color:#bbb;margin-bottom:.4rem;font-weight:500}
+.input-group input{width:100%;background:#1f1f1f;border:1px solid #333;border-radius:14px;padding:.9rem 1rem;font-size:.95rem;color:#fff;outline:none;transition:.2s}
+.input-group input:focus{border-color:#777;background:#252525}
+.input-group input::placeholder{color:#5f5f5f}
+.modal-actions{display:flex;gap:12px;margin-top:1.8rem}
+.modal-actions .btn{padding:.9rem;flex:1}
+.btn-ghost{background:transparent;border:1px solid #444;color:#ccc}
+.btn-ghost:hover{background:#1f1f1f}
+.success-message{text-align:center;padding:1.5rem 0}
+.success-message svg{width:64px;height:64px;fill:#fff;margin-bottom:1rem;opacity:.9}
+.success-message h3{font-size:1.5rem;margin-bottom:.5rem;color:#fff}
+.success-message p{color:#999;font-size:.95rem}
+.social-footer{margin-top:2rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;padding-top:1rem;border-top:1px solid #232323}
+.social-link{display:flex;align-items:center;gap:8px;color:#b0b0b0;text-decoration:none;font-size:.9rem;transition:color .2s}
+.social-link svg{width:22px;height:22px;fill:#b0b0b0;transition:fill .2s}
+.social-link:hover{color:#fff}
+.social-link:hover svg{fill:#fff}
+.registered-badge{background:#1f1f1f;border:1px solid #3a3a3a;border-radius:60px;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:center;gap:10px;color:#ddd;font-weight:500;margin:1.5rem 0;text-align:center}
+.registered-badge svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
+.task-note{text-align:center;color:#777;font-size:.8rem;margin-top:.8rem;line-height:1.4}
+.locked-note{text-align:center;color:#999;font-size:.85rem;margin-top:.8rem;line-height:1.5;padding:0 .5rem}
+@media (max-width:550px){.main-card{padding:1.8rem 1.2rem}.media-container img,.media-container video{max-height:160px}.prize-info{gap:1rem;padding:.8rem 1rem}}
+</style>
 </head>
 <body>
-    <div class="main-card">
-        <!-- Cabeçalho -->
-        <div class="header">
-            <div class="logo-area">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
-                <div class="logo-text">
-                    <h1>NullContas</h1>
-                    <span>Sorteio exclusivo</span>
-                </div>
-            </div>
-            <div class="badge">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                Conta FF Grátis
-            </div>
-        </div>
+<div class="main-card">
+<div class="header">
+<div class="logo-area">
+<div class="logo-icon">
+<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+</div>
+<div class="logo-text">
+<h1>NullContas</h1>
+<span>Sorteio exclusivo</span>
+</div>
+</div>
+<div class="badge">
+<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+Conta Free Fire
+</div>
+</div>
 
-        <!-- Mídia: conta.png e conta.mp4 -->
-        <div class="media-showcase">
-            <div class="media-container">
-                <!-- Imagem conta.png (com fallback) -->
-                <img src="conta.png" alt="Conta Free Fire" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#555; padding:2rem; text-align:center\'>📸 conta.png (prévia da conta)</div>';">
-                <!-- Vídeo conta.mp4 (se existir) -->
-                <video src="conta.mp4" controls muted loop style="display: none;" id="videoPreview"></video>
-            </div>
-            <div class="media-caption">
-                <span>🔥 Conta com skins raras</span>
-                <span>Nível 65+ • Muitos itens</span>
-            </div>
-        </div>
+<div class="media-showcase">
+<div class="media-container">
+<img src="conta.png" alt="Conta Free Fire" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#555; padding:2rem; text-align:center\'>Imagem conta.png</div>';">
+<video src="conta.mp4" controls muted loop id="videoPreview"></video>
+</div>
+<div class="media-caption">
+<span>Conta com skins raras</span>
+<span>Nivel 65+ - Muitos itens</span>
+</div>
+</div>
 
-        <!-- Informações do prêmio -->
-        <div class="prize-info">
-            <div class="info-item">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <span>Conta Free Fire</span>
-            </div>
-            <div class="info-item">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                <span>Sorteio dia 30/06</span>
-            </div>
-            <div class="info-item">
-                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                <span>+1.200 inscritos</span>
-            </div>
-        </div>
+<div class="prize-info">
+<div class="info-item">
+<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+<span>Conta Free Fire</span>
+</div>
+<div class="info-item">
+<svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+<span>Inscricoes abertas</span>
+</div>
+</div>
 
-        <!-- Área principal de participação (verifica localStorage) -->
-        <div id="mainActionArea">
-            <!-- Botão principal de participar (será substituído se já inscrito) -->
-            <button class="btn btn-primary" id="btnParticipar">
-                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                Participar do sorteio
-            </button>
-        </div>
+<div id="mainActionArea"></div>
 
-        <!-- Modo Boost (sempre visível, mas se já inscrito comum, pode ser usado) -->
-        <div class="boost-section">
-            <div class="boost-title">
-                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                Modo Boost — mais chances
-            </div>
-            <div class="boost-options">
-                <div class="boost-card" data-boost="1" data-price="1">
-                    <div class="boost-price">R$1<small>,00</small></div>
-                    <div class="boost-label">Boost básico</div>
-                    <div class="boost-multiplier">+2x chances</div>
-                </div>
-                <div class="boost-card" data-boost="3" data-price="3">
-                    <div class="boost-price">R$3<small>,00</small></div>
-                    <div class="boost-label">Boost médio</div>
-                    <div class="boost-multiplier">+5x chances</div>
-                </div>
-                <div class="boost-card" data-boost="5" data-price="5">
-                    <div class="boost-price">R$5<small>,00</small></div>
-                    <div class="boost-label">Boost master</div>
-                    <div class="boost-multiplier">+12x chances</div>
-                </div>
-            </div>
-        </div>
+<div class="social-footer">
+<a href="https://www.instagram.com/nullcontas?stkn=MTF3eTltbHk2and6ZQ==" target="_blank" class="social-link">
+<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+Instagram
+</a>
+<a href="https://www.tiktok.com/@nullcontas" target="_blank" class="social-link">
+<svg viewBox="0 0 24 24"><path d="M19.589 6.686a4.793 4.793 0 01-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 01-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 013.183-4.51v-3.5a6.329 6.329 0 00-5.394 10.692 6.33 6.33 0 0010.857-4.424V8.687a8.182 8.182 0 004.773 1.526V6.79a4.831 4.831 0 01-1.003-.104z"/></svg>
+TikTok @nullcontas
+</a>
+</div>
+</div>
 
-        <!-- Redes sociais -->
-        <div class="social-footer">
-            <a href="https://www.instagram.com/nullcontas?stkn=MTF3eTltbHk2and6ZQ==" target="_blank" class="social-link">
-                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                Instagram
-            </a>
-            <a href="https://www.tiktok.com/@nullcontas" target="_blank" class="social-link">
-                <svg viewBox="0 0 24 24"><path d="M19.589 6.686a4.793 4.793 0 01-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 01-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 013.183-4.51v-3.5a6.329 6.329 0 00-5.394 10.692 6.33 6.33 0 0010.857-4.424V8.687a8.182 8.182 0 004.773 1.526V6.79a4.831 4.831 0 01-1.003-.104z"/></svg>
-                TikTok @nullcontas
-            </a>
-        </div>
-    </div>
+<div class="modal-overlay" id="modalOverlay">
+<div class="modal-card" id="modalCard"></div>
+</div>
 
-    <!-- Modal de formulário -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-card" id="modalCard">
-            <!-- Conteúdo dinâmico -->
-        </div>
-    </div>
+<script>
+(function(){
+// ===== CONFIGURACAO =====
+// URL do seu site publico (usada se precisar mostrar o link pro usuario voltar)
+const URL_SITE = 'https://exdowner.github.io/DOANDO/';
 
-    <script>
-        (function() {
-            // Elementos principais
-            const mainActionArea = document.getElementById('mainActionArea');
-            const modalOverlay = document.getElementById('modalOverlay');
-            const modalCard = document.getElementById('modalCard');
-            const boostCards = document.querySelectorAll('.boost-card');
-            
-            // Estado
-            let selectedBoost = null; // null = participação normal, 1,3,5 = boost
+// Link da Alpha Rede (encurtador que paga)
+const URL_ENCurTADOR = 'https://alpharede.com/ZamWMrSoCYU';
 
-            // Verifica localStorage
-            function getRegistration() {
-                const reg = localStorage.getItem('ff_sorteio_inscrito');
-                return reg ? JSON.parse(reg) : null;
-            }
+// Dominios de encurtadores aceitos como referencia valida
+const DOMINIOS_VALIDOS = [
+'alpharede.com',
+'alpha-rede.com',
+'encurtador.com',
+'encurtador.com.br',
+'bit.ly',
+'tinyurl.com',
+'cutt.ly',
+'is.gd',
+'shorturl.at',
+'linkvertise.com',
+'ouo.io',
+'shrinkme.io',
+'encurta.net',
+'adf.ly',
+'shorte.st'
+];
+// ========================
 
-            function setRegistration(data) {
-                localStorage.setItem('ff_sorteio_inscrito', JSON.stringify(data));
-            }
+const mainActionArea = document.getElementById('mainActionArea');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalCard = document.getElementById('modalCard');
 
-            // Atualiza a área principal conforme inscrição
-            function updateMainArea() {
-                const reg = getRegistration();
-                if (reg) {
-                    mainActionArea.innerHTML = `
-                        <div class="registered-badge">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                            Você já está inscrito! Boa sorte 🍀
-                        </div>
-                    `;
-                } else {
-                    mainActionArea.innerHTML = `
-                        <button class="btn btn-primary" id="btnParticipar">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                            Participar do sorteio
-                        </button>
-                    `;
-                    // Rebind
-                    document.getElementById('btnParticipar').addEventListener('click', () => {
-                        selectedBoost = null;
-                        openFormModal(null);
-                    });
-                }
-            }
+function getRegistro(){const r=localStorage.getItem('ff_sorteio_inscrito');return r?JSON.parse(r):null;}
+function setRegistro(d){localStorage.setItem('ff_sorteio_inscrito',JSON.stringify(d));}
+function tarefaFeita(){return localStorage.getItem('ff_tarefa_concluida')==='true';}
+function marcarTarefa(){localStorage.setItem('ff_tarefa_concluida','true');}
 
-            // Abre modal com formulário
-            function openFormModal(boostValue) {
-                // boostValue: null (normal), 1,3,5
-                const isBoost = boostValue !== null;
-                const reg = getRegistration();
-                
-                // Se já inscrito e tentar boost? Permitimos, mas avisamos (opcional)
-                // Mas se já inscrito normal, pode fazer boost? Sim, mas vamos permitir.
-                // Porém, se já inscrito com boost, mostramos mensagem?
-                
-                let title, subtitle, extraFields = '';
-                if (isBoost) {
-                    title = `Boost R$${boostValue},00`;
-                    subtitle = `Preencha os dados e anexe o comprovante para dobrar suas chances!`;
-                    extraFields = `
-                        <div class="input-group">
-                            <label>Nome da conta que efetuou o pagamento</label>
-                            <input type="text" id="nomeContaPagamento" placeholder="Ex: João Silva" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Foto do comprovante</label>
-                            <input type="file" id="comprovante" accept="image/*" required>
-                            <div class="file-hint">Formatos: JPG, PNG. Tamanho máximo 5MB</div>
-                        </div>
-                    `;
-                } else {
-                    title = 'Participar do sorteio';
-                    subtitle = 'Preencha seus dados para concorrer à conta Free Fire.';
-                }
+// Verifica se o usuario veio do encurtador (referrer ou parametro)
+function veioDoEncurtador(){
+const params = new URLSearchParams(window.location.search);
+if(params.get('tarefa')==='ok') return true;
 
-                // Verifica se já inscrito (normal)
-                if (!isBoost && reg) {
-                    // Já inscrito, mas ainda permite abrir? Melhor mostrar mensagem
-                    modalCard.innerHTML = `
-                        <div class="success-message">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                            <h3>Você já está inscrito!</h3>
-                            <p>Aguarde o sorteio. Boa sorte! 🍀</p>
-                        </div>
-                        <div class="modal-actions">
-                            <button class="btn btn-ghost" id="closeModalBtn">Fechar</button>
-                        </div>
-                    `;
-                    modalOverlay.classList.add('active');
-                    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-                    return;
-                }
+const ref = document.referrer;
+if(ref){
+try{
+const host = new URL(ref).hostname.replace('www.','').toLowerCase();
+if(DOMINIOS_VALIDOS.some(function(d){return host.indexOf(d)!==-1;})) return true;
+}catch(e){}
+}
+return false;
+}
 
-                modalCard.innerHTML = `
-                    <h2>
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        ${title}
-                    </h2>
-                    <div class="modal-sub">${subtitle}</div>
-                    <form id="sorteioForm">
-                        <div class="input-group">
-                            <label>Seu nome completo</label>
-                            <input type="text" id="nome" placeholder="Ex: Maria Souza" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Seu melhor e-mail</label>
-                            <input type="email" id="email" placeholder="exemplo@email.com" required>
-                        </div>
-                        ${extraFields}
-                        <div class="modal-actions">
-                            <button type="button" class="btn btn-ghost" id="cancelModalBtn">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Enviar inscrição</button>
-                        </div>
-                    </form>
-                `;
+// Detecta na chegada e marca a tarefa como concluida
+function processarChegada(){
+if(veioDoEncurtador()){
+marcarTarefa();
+// Limpa o parametro da URL
+if(window.history.replaceState){
+var urlLimpa = window.location.origin + window.location.pathname;
+window.history.replaceState({}, document.title, urlLimpa);
+}
+}
+}
 
-                modalOverlay.classList.add('active');
+function updateMainArea(){
+const reg = getRegistro();
+const ok = tarefaFeita();
 
-                // Eventos do modal
-                document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
-                
-                const form = document.getElementById('sorteioForm');
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    const nome = document.getElementById('nome').value.trim();
-                    const email = document.getElementById('email').value.trim();
-                    
-                    if (!nome || !email) {
-                        alert('Por favor, preencha nome e e-mail.');
-                        return;
-                    }
-                    
-                    let boostData = null;
-                    if (isBoost) {
-                        const nomeConta = document.getElementById('nomeContaPagamento')?.value.trim();
-                        const comprovanteInput = document.getElementById('comprovante');
-                        const file = comprovanteInput?.files[0];
-                        
-                        if (!nomeConta) {
-                            alert('Informe o nome da conta que efetuou o pagamento.');
-                            return;
-                        }
-                        if (!file) {
-                            alert('Anexe a foto do comprovante.');
-                            return;
-                        }
-                        
-                        boostData = {
-                            tipo: 'boost',
-                            valor: boostValue,
-                            nomeConta: nomeConta,
-                            comprovanteNome: file.name
-                            // Não armazenamos o arquivo em si por limitações, apenas o nome
-                        };
-                    }
-                    
-                    // Salva no localStorage
-                    const registrationData = {
-                        nome: nome,
-                        email: email,
-                        boost: boostData,
-                        dataInscricao: new Date().toISOString()
-                    };
-                    setRegistration(registrationData);
-                    
-                    // Mostra mensagem de sucesso
-                    modalCard.innerHTML = `
-                        <div class="success-message">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                            <h3>Inscrição confirmada!</h3>
-                            <p>${isBoost ? 'Boost ativado com sucesso! Suas chances aumentaram.' : 'Você está participando do sorteio. Boa sorte!'}</p>
-                        </div>
-                        <div class="modal-actions">
-                            <button class="btn btn-primary" id="closeSuccessBtn">Fechar</button>
-                        </div>
-                    `;
-                    document.getElementById('closeSuccessBtn').addEventListener('click', () => {
-                        closeModal();
-                        updateMainArea(); // atualiza área principal
-                    });
-                    
-                    // Atualiza área principal imediatamente (já inscrito)
-                    updateMainArea();
-                });
-            }
+// Ja inscrito
+if(reg){
+mainActionArea.innerHTML = '<div class="registered-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg><span>Inscricao ja realizada. Aguarde o resultado.</span></div>';
+return;
+}
 
-            function closeModal() {
-                modalOverlay.classList.remove('active');
-            }
+// Tarefa ainda nao feita -> mostra botao bloqueado com instrucao
+if(!ok){
+mainActionArea.innerHTML =
+'<button class="btn btn-primary" id="btnTarefa">' +
+'<svg viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.59-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>' +
+'Completar tarefa para liberar' +
+'</button>' +
+'<p class="task-note">Voce sera redirecionado para um link curto e voltara automaticamente para finalizar a inscricao.</p>';
+document.getElementById('btnTarefa').addEventListener('click', function(){
+window.location.href = URL_ENCurTADOR;
+});
+return;
+}
 
-            // Fecha modal ao clicar fora
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    closeModal();
-                }
-            });
+// Tarefa concluida -> libera o botao de participar
+mainActionArea.innerHTML =
+'<button class="btn btn-primary" id="btnParticipar">' +
+'<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>' +
+'Participar do sorteio' +
+'</button>' +
+'<p class="locked-note">Tarefa concluida. Agora voce pode se inscrever.</p>';
+document.getElementById('btnParticipar').addEventListener('click', function(){abrirForm();});
+}
 
-            // Configurar boost cards
-            boostCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const boostValue = parseInt(card.getAttribute('data-boost'));
-                    
-                    // Destaca o selecionado
-                    boostCards.forEach(c => c.classList.remove('selected'));
-                    card.classList.add('selected');
-                    
-                    // Abre o modal com o boost
-                    openFormModal(boostValue);
-                });
-            });
+function abrirForm(){
+const reg = getRegistro();
+if(reg){
+modalCard.innerHTML =
+'<div class="success-message">' +
+'<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' +
+'<h3>Inscricao ja realizada</h3>' +
+'<p>Aguarde o resultado do sorteio.</p>' +
+'</div>' +
+'<div class="modal-actions">' +
+'<button class="btn btn-ghost" id="closeBtn">Fechar</button>' +
+'</div>';
+modalOverlay.classList.add('active');
+document.getElementById('closeBtn').addEventListener('click', closeModal);
+return;
+}
 
-            // Inicializa
-            updateMainArea();
+modalCard.innerHTML =
+'<h2><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Participar do sorteio</h2>' +
+'<div class="modal-sub">Preencha seus dados para concorrer a conta Free Fire.</div>' +
+'<form id="sorteioForm">' +
+'<div class="input-group"><label>Seu nome completo</label><input type="text" id="nome" placeholder="Ex: Maria Souza" required></div>' +
+'<div class="input-group"><label>Seu melhor e-mail</label><input type="email" id="email" placeholder="exemplo@email.com" required></div>' +
+'<div class="modal-actions">' +
+'<button type="button" class="btn btn-ghost" id="cancelBtn">Cancelar</button>' +
+'<button type="submit" class="btn btn-primary">Enviar inscricao</button>' +
+'</div>' +
+'</form>';
+modalOverlay.classList.add('active');
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
 
-            // Tenta carregar o vídeo se existir
-            const video = document.getElementById('videoPreview');
-            if (video) {
-                video.addEventListener('loadeddata', () => {
-                    video.style.display = 'block';
-                    // Esconde a imagem se o vídeo carregar
-                    const img = document.querySelector('.media-container img');
-                    if (img) img.style.display = 'none';
-                });
-                video.addEventListener('error', () => {
-                    video.style.display = 'none';
-                });
-                // Tenta carregar
-                video.load();
-            }
-        })();
-    </script>
+document.getElementById('sorteioForm').addEventListener('submit', function(e){
+e.preventDefault();
+var nome = document.getElementById('nome').value.trim();
+var email = document.getElementById('email').value.trim();
+if(!nome || !email){alert('Por favor, preencha nome e e-mail.'); return;}
+
+setRegistro({
+nome: nome,
+email: email,
+boost: null,
+dataInscricao: new Date().toISOString()
+});
+
+modalCard.innerHTML =
+'<div class="success-message">' +
+'<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>' +
+'<h3>Inscricao confirmada</h3>' +
+'<p>Voce esta participando do sorteio. Boa sorte.</p>' +
+'</div>' +
+'<div class="modal-actions">' +
+'<button class="btn btn-primary" id="closeSuccessBtn">Fechar</button>' +
+'</div>';
+document.getElementById('closeSuccessBtn').addEventListener('click', function(){
+closeModal();
+updateMainArea();
+});
+updateMainArea();
+});
+}
+
+function closeModal(){
+modalOverlay.classList.remove('active');
+}
+
+modalOverlay.addEventListener('click', function(e){
+if(e.target === modalOverlay) closeModal();
+});
+
+// Inicializa
+processarChegada();
+updateMainArea();
+
+// Tenta carregar o video
+var video = document.getElementById('videoPreview');
+if(video){
+video.addEventListener('loadeddata', function(){
+video.style.display = 'block';
+var img = document.querySelector('.media-container img');
+if(img) img.style.display = 'none';
+});
+video.addEventListener('error', function(){ video.style.display = 'none'; });
+video.load();
+}
+})();
+</script>
 </body>
 </html>
