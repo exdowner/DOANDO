@@ -82,6 +82,19 @@ body{background:#0b0b0b;background-image:radial-gradient(circle at 20% 30%,#1e1e
 .boost-multiplier{font-size:.75rem;background:#2e2e2e;padding:4px 8px;border-radius:30px;display:inline-block;margin-top:8px;color:#ddd}
 .boost-hint{text-align:center;color:#888;font-size:.78rem;margin-top:1rem;line-height:1.4}
 
+/* Bloco Pix */
+.pix-box{background:linear-gradient(145deg,#1a1a1a,#111);border:1px solid #3a3a3a;border-radius:1.2rem;padding:1.1rem 1.2rem;margin-bottom:1.4rem}
+.pix-box-title{display:flex;align-items:center;gap:8px;font-size:.85rem;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:.7rem;font-weight:600}
+.pix-box-title svg{width:16px;height:16px;fill:#fff;opacity:.8}
+.pix-key-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0e0e0e;border:1px solid #2e2e2e;border-radius:12px;padding:.75rem .9rem;flex-wrap:wrap}
+.pix-key{font-size:.95rem;color:#fff;font-weight:600;word-break:break-all;flex:1;min-width:0}
+.pix-copy-btn{background:linear-gradient(135deg,#fff,#d4d4d4);color:#111;border:none;border-radius:30px;padding:.5rem .9rem;font-size:.8rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;white-space:nowrap}
+.pix-copy-btn:hover{background:linear-gradient(135deg,#f0f0f0,#bdbdbd);transform:translateY(-1px)}
+.pix-copy-btn svg{width:14px;height:14px;fill:#111}
+.pix-copy-btn.copied{background:linear-gradient(135deg,#2e2e2e,#1a1a1a);color:#fff}
+.pix-copy-btn.copied svg{fill:#fff}
+.pix-instructions{font-size:.78rem;color:#888;margin-top:.7rem;line-height:1.5}
+
 @media (max-width:550px){.main-card{padding:1.8rem 1.2rem}.media-container img,.media-container video{max-height:160px}.prize-info{gap:1rem;padding:.8rem 1rem}.boost-options{flex-direction:column}.boost-card{width:100%}}
 </style>
 </head>
@@ -187,6 +200,7 @@ TikTok @nullcontas
 <script>
 (function(){
 var URL_ENCurTADOR = 'https://alpharede.com/ZamWMrSoCYU';
+var PIX_KEY = 'sampteken@gmail.com';
 
 var DOMINIOS_VALIDOS = [
 'alpharede.com','alpha-rede.com','encurtador.com','encurtador.com.br',
@@ -288,6 +302,30 @@ abrirForm(null);
 });
 }
 
+// Bloco HTML do Pix
+function pixBlock(valor){
+var valorFmt = valor + ',00';
+return '<div class="pix-box">' +
+'<div class="pix-box-title">' +
+'<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>' +
+'Pague R$' + valorFmt + ' via Pix' +
+'</div>' +
+'<div class="pix-key-row">' +
+'<span class="pix-key" id="pixKeyText">' + PIX_KEY + '</span>' +
+'<button type="button" class="pix-copy-btn" id="pixCopyBtn">' +
+'<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>' +
+'Copiar chave' +
+'</button>' +
+'</div>' +
+'<div class="pix-instructions">' +
+'1. Copie a chave Pix acima<br>' +
+'2. Pague R$' + valorFmt + ' no app do seu banco<br>' +
+'3. Tire print ou salve o comprovante<br>' +
+'4. Anexe o comprovante no campo abaixo' +
+'</div>' +
+'</div>';
+}
+
 function abrirForm(boostValue){
 var reg = getRegistro();
 if(reg){
@@ -310,8 +348,9 @@ var title, subtitle, extraFields = '';
 
 if(isBoost){
 title = 'Boost R$' + boostValue + ',00';
-subtitle = 'Preencha os dados e anexe o comprovante para ativar seu Boost.';
+subtitle = 'Pague via Pix, anexe o comprovante e ative seu Boost.';
 extraFields =
+pixBlock(boostValue) +
 '<div class="input-group"><label>Nome da conta que efetuou o pagamento</label><input type="text" id="nomeContaPagamento" placeholder="Ex: Joao Silva" required></div>' +
 '<div class="input-group"><label>Foto do comprovante</label><input type="file" id="comprovante" accept="image/*" required><div class="file-hint">Formatos: JPG, PNG. Tamanho maximo 5MB</div></div>';
 } else {
@@ -333,6 +372,39 @@ extraFields +
 '</form>';
 modalOverlay.classList.add('active');
 document.getElementById('cancelBtn').addEventListener('click', closeModal);
+
+// Botao copiar Pix
+var pixCopyBtn = document.getElementById('pixCopyBtn');
+if(pixCopyBtn){
+pixCopyBtn.addEventListener('click', function(){
+var chave = PIX_KEY;
+function sucesso(){
+pixCopyBtn.classList.add('copied');
+pixCopyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Copiado';
+setTimeout(function(){
+pixCopyBtn.classList.remove('copied');
+pixCopyBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>Copiar chave';
+}, 2000);
+}
+if(navigator.clipboard && navigator.clipboard.writeText){
+navigator.clipboard.writeText(chave).then(sucesso).catch(function(){
+var ta = document.createElement('textarea');
+ta.value = chave;
+document.body.appendChild(ta);
+ta.select();
+try{document.execCommand('copy');sucesso();}catch(e){alert('Nao foi possivel copiar. Chave: ' + chave);}
+document.body.removeChild(ta);
+});
+} else {
+var ta = document.createElement('textarea');
+ta.value = chave;
+document.body.appendChild(ta);
+ta.select();
+try{document.execCommand('copy');sucesso();}catch(e){alert('Nao foi possivel copiar. Chave: ' + chave);}
+document.body.removeChild(ta);
+}
+});
+}
 
 document.getElementById('sorteioForm').addEventListener('submit', function(e){
 e.preventDefault();
@@ -384,7 +456,6 @@ updateMainArea();
 function closeModal(){modalOverlay.classList.remove('active');}
 modalOverlay.addEventListener('click', function(e){if(e.target === modalOverlay) closeModal();});
 
-// Boost sempre clicavel - nao depende da tarefa
 boostCards.forEach(function(card){
 card.addEventListener('click', function(){
 var val = parseInt(card.getAttribute('data-boost'), 10);
